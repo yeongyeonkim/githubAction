@@ -1,13 +1,19 @@
+# develop 브랜치에 push가 되거나 pr이 만들어진 경우 bats 버전 출력을 자동으로 트리거하는 Workflow
+
 name: github-actions-example
-# develop 브랜치에 push가 되거나 pr이 만들어진 경우 Workflow를 트리거
 on: 
   push:
-    branches: [develop]
+    branches: develop
   pull_request:
     branches: "**"
 jobs:
   job_name:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
-    - 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
   
